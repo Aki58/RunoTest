@@ -19,7 +19,7 @@ public class DialogActivity extends Activity {
         try
         {
             requestWindowFeature(Window.FEATURE_NO_TITLE);
-            this.setFinishOnTouchOutside(true);
+            this.setFinishOnTouchOutside(false);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_dialog);
             num=findViewById(R.id.number);

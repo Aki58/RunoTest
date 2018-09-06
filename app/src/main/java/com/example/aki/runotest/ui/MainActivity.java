@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static android.Manifest.permission.READ_CALL_LOG;
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_PHONE_STATE;
 
@@ -73,13 +74,14 @@ public class MainActivity extends AppCompatActivity {
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(getApplicationContext(),READ_PHONE_STATE );
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(),READ_CONTACTS );
+        int result2 = ContextCompat.checkSelfPermission(getApplicationContext(),READ_CALL_LOG );
 
-        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED && result2==PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestPermission() {
 
-        ActivityCompat.requestPermissions(this, new String[]{READ_PHONE_STATE,READ_CONTACTS}, PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, new String[]{READ_PHONE_STATE,READ_CONTACTS,READ_CALL_LOG}, PERMISSION_REQUEST_CODE);
 
     }
     @Override
@@ -90,7 +92,9 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0) {
                     boolean phoneStateAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean contactsAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-                    if (phoneStateAccepted&&contactsAccepted)
+                    boolean callLogAccepted=grantResults[2]==PackageManager.PERMISSION_GRANTED;
+
+                    if (phoneStateAccepted&&contactsAccepted&&callLogAccepted)
                     {
                         Intent i=getIntent();
                         finish();
@@ -98,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        requestPermissions(new String[]{READ_PHONE_STATE,READ_CONTACTS},
+                        requestPermissions(new String[]{READ_PHONE_STATE,READ_CONTACTS,READ_CALL_LOG},
                                 PERMISSION_REQUEST_CODE);
                     }
                 }
